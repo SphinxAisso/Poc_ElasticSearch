@@ -1,6 +1,6 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { ReactiveFormsModule }    from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AgmCoreModule } from '@agm/core';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
@@ -11,7 +11,6 @@ import { AuthGuard } from './guards';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login';
 import { SearchComponent } from './search/search.component';
-import { MapComponent } from './map/map.component';
 
 import { AuthenticationService } from './services';
 
@@ -29,8 +28,7 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    SearchComponent,
-    MapComponent
+    SearchComponent
   ],
   imports: [
     BrowserModule,

@@ -4,3 +4,15 @@
  	padding: 0;
  	border: none;
  }
+
+
+ #leftdiv  {
+	 width: 40%;
+	 float: left;
+	 position: center;
+ }
+ #rightdiv {
+	 width: 40%;
+	 float: right;
+	 position: center;
+ }

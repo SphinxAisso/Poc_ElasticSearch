@@ -739,7 +739,9 @@ a:active {
 .site-footer:after {
     content: "";
     display: table;
-    table-layout: fixed;
+    position: absolute;
+
+
 }
 
 .clear:after,
