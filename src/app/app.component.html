@@ -1,0 +1,16 @@
+<a [routerLink]="['/login']" class="btn btn-flat btn-rounded btn-icon btn-xs pull-right mt-10"  *ngIf="env.isLoggedIn">
+  <i class="icon-switch2 position-left"></i> Logout
+</a>
+<a [routerLink]="['/']" class="btn btn-flat btn-rounded btn-icon btn-xs pull-left mt-10"  *ngIf="env.goBack">
+  <i class="icon-arrow-left12 position-left"></i> Back
+</a>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="main-contact">
+      <div class="form-contact">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>
