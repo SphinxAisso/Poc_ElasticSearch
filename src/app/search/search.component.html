@@ -3,20 +3,144 @@
         <div id="primary" class="content-area">
             <main id="main" class="main-contact">
                 <div class="form-contact">
-                    left div
+
+                    <form (ngSubmit)="onSubmitElastic()">
+                        <!-- Name Search field -->
+                        <div class="content-group">
+                            <input name="idElastic" class="form-control" type="text" [(ngModel)]="elastic_params"
+                                   placeholder="chercher par id ..."/>
+                        </div>
+                        <!-- /name search field -->
+                        <br>
+                        <button class="nf-fu-fileinput-button bg-grey-800 center-block" type="submit">Rechercher
+                        </button>
+
+                        <!--<div class="content-group">-->
+                        <!--<input placeholder="chercher par mot clé ..." type="text" class="form-control input-xlg" [formControl]="searchControl" value="" />-->
+                        <!--</div>-->
+                        <!-- /address search field -->
+                    </form>
+
                 </div>
             </main>
         </div>
+        <!-------------------------------------------------------->
+        <button [disabled]="true" class="btn btn-block btn-success">
+            ElasticSearch
+        </button>
+        <!--<img  class="center-block" *ngIf="false"-->
+        <!--src="assets/img/lg.azure-round-loader.gif"/>-->
+        <div *ngIf="loadingElastic" class="sk-cube-grid">
+            <div class="sk-cube sk-cube1"></div>
+            <div class="sk-cube sk-cube2"></div>
+            <div class="sk-cube sk-cube3"></div>
+            <div class="sk-cube sk-cube4"></div>
+            <div class="sk-cube sk-cube5"></div>
+            <div class="sk-cube sk-cube6"></div>
+            <div class="sk-cube sk-cube7"></div>
+            <div class="sk-cube sk-cube8"></div>
+            <div class="sk-cube sk-cube9"></div>
+        </div>
+        <br>
+        <br>
+        <div *ngIf="responseElastic.length">
+            <table>
+                <thead class="thead-dark">
+                <tr class="bg-grey">
+                    <th>Dossier</th>
+                    <th>Origine</th>
+                    <th>Id_agent</th>
+                    <th>Statut</th>
+                    <th>Type</th>
+                    <th>Personne</th>
+                </tr>
+                </thead>
+                <tr class="alpha-indigo" *ngFor="let item of responseElastic">
+                    <td>{{item.num_dossier}}</td>
+                    <td>{{item.origine}}</td>
+                    <td>{{item.id_agent}}</td>
+                    <td>{{item.statut}}</td>
+                    <td>{{item.type}}</td>
+                    <td>{{item.personne}}</td>
+                </tr>
+            </table>
+            <!--<span>{{config | json}}</span>-->
+        </div>
+        <!-------------------------------------------------------->
     </div>
-
     <div id="rightdiv">
         <div id="primary" class="content-area">
             <main id="main" class="main-contact">
                 <div class="form-contact">
-                    right div
+
+                    <form (ngSubmit)="onSubmitAS400()">
+                        <!-- Name Search field -->
+                        <div class="content-group">
+                            <input name="fullname" class="form-control" type="text" [(ngModel)]="as400_params"
+                                   placeholder="chercher par id ..."
+                                   autofocus/>
+                        </div>
+                        <!-- /name search field -->
+                        <br>
+                        <button class="nf-fu-fileinput-button bg-grey-800 center-block" type="submit">Rechercher
+                        </button>
+
+                        <!--<div class="content-group">-->
+                        <!--<input placeholder="chercher par mot clé ..." autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control input-xlg" [formControl]="searchControl" value="" />-->
+                        <!--</div>-->
+                        <!-- /address search field -->
+                    </form>
+
                 </div>
+
             </main>
+
         </div>
+
+        <!-------------------------------------------------------->
+        <button [disabled]="true" class="btn btn-block btn-success">
+            AS400
+        </button>
+        <!--<img  class="center-block" *ngIf="true"-->
+        <!--src="assets/img/lg.azure-round-loader.gif"/>-->
+        <div *ngIf="loadingAS400" class="sk-cube-grid">
+            <div class="sk-cube sk-cube1"></div>
+            <div class="sk-cube sk-cube2"></div>
+            Z
+            <div class="sk-cube sk-cube3"></div>
+            <div class="sk-cube sk-cube4"></div>
+            <div class="sk-cube sk-cube5"></div>
+            <div class="sk-cube sk-cube6"></div>
+            <div class="sk-cube sk-cube7"></div>
+            <div class="sk-cube sk-cube8"></div>
+            <div class="sk-cube sk-cube9"></div>
+        </div>
+        <br>
+        <br>
+        <div *ngIf="responseAS400.length">
+            <table>
+                <thead class="thead-dark">
+                <tr class="bg-grey">
+                    <th>Dossier</th>
+                    <th>Origine</th>
+                    <th>Id_agent</th>
+                    <th>Statut</th>
+                    <th>Type</th>
+                    <th>Personne</th>
+                </tr>
+                </thead>
+                <tr class="alpha-indigo" *ngFor="let item of responseAS400">
+                    <td>{{item.num_dossier}}</td>
+                    <td>{{item.origine}}</td>
+                    <td>{{item.id_agent}}</td>
+                    <td>{{item.statut}}</td>
+                    <td>{{item.type}}</td>
+                    <td>{{item.personne}}</td>
+                </tr>
+            </table>
+            <!--<span>{{config | json}}</span>-->
+        </div>
+        <!-------------------------------------------------------->
     </div>
 </div>
 

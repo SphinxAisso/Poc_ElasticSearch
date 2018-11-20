@@ -1,37 +1,111 @@
-import { Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
-import { environment } from '../../environments/environment';
-
+import {Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Title} from '@angular/platform-browser';
+import {environment} from '../../environments/environment';
+import {Config, SearchService} from "./search.service";
+import {FormControl} from "@angular/forms";
+import {map, filter, catchError, mergeMap} from 'rxjs/operators';
 
 @Component({
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+    templateUrl: './search.component.html',
+    providers: [SearchService],
+    styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
+    responseElastic: string[];
+    responseAS400: string[];
+    elastic_params: string;
+    as400_params: string;
+    loadingElastic: boolean;
+    loadingAS400: boolean;
+    public searchControl: FormControl;
+    error: any;
+    headers: string[];
+    config: Config;
+    @ViewChild("search")
+    public searchElementRef: ElementRef;
+    public address: string;
+    env = environment;
 
-	@ViewChild("search")
-	public searchElementRef: ElementRef;
-	public address: string;
-	env = environment;
 
-	constructor(
-		private route: ActivatedRoute,
-		private router: Router,
-		private cdr: ChangeDetectorRef,
-		private titleService: Title
+    constructor(
+        private searchService: SearchService,
+        private route: ActivatedRoute,
+        private router: Router,
+        private cdr: ChangeDetectorRef,
+        private titleService: Title
     ) {
-		this.env.isLoggedIn = true;
+        this.loadingElastic = false;
+        this.loadingAS400 = false;
+        this.env.isLoggedIn = true;
         this.env.goBack = false;
-    	document.body.className = "page page-home page-contact";
-	}
+        document.body.className = "page page-home page-contact";
+        this.responseElastic = [];
+        this.responseAS400 = [];
+        // this.value = '';
+    }
 
-	ngOnInit() {
-		this.titleService.setTitle( "POK ElasticSearch" );
-	}
+    ngOnInit() {
+        this.titleService.setTitle("POK ElasticSearch");
+        //create search FormControl
+        this.searchControl = new FormControl();
+    }
 
-	private onSubmit(){
-		this.cdr.detectChanges();
-	}
+    clear() {
+        this.config = undefined;
+        this.error = undefined;
+        this.headers = undefined;
+    }
 
+    showSearchResponseElastic() {
+        this.searchService.getElasticResponse(this.elastic_params)
+            .subscribe(resp => {
+                this.responseElastic = [];
+                resp.body._resource.map(item => {
+                    let object = {
+                        id_agent: item.id_agent,
+                        num_dossier: item.num_dossier,
+                        origine: item.origine,
+                        personne: item.personne,
+                        statut: item.statut,
+                        type: item.type
+                    };
+                    this.responseElastic.push(object);
+                });
+                this.loadingElastic = false;
+            });
+    }
+
+    showSearchResponseAS400() {
+        this.searchService.getAS400Response(this.as400_params)
+        // resp is of type `HttpResponse<Config>`
+            .subscribe(resp => {
+                this.responseAS400 = [];
+                resp.body._resource.map(item => {
+                    let object = {
+                        id_agent: item.id_agent,
+                        num_dossier: item.num_dossier,
+                        origine: item.origine,
+                        personne: item.personne,
+                        statut: item.statut,
+                        type: item.type
+                    };
+                    this.responseAS400.push(object);
+                });
+                this.loadingAS400 = false;
+
+            });
+    }
+
+    public onSubmitElastic() {
+        this.loadingElastic = true;
+        this.showSearchResponseElastic();
+        this.cdr.detectChanges();
+    }
+
+    public onSubmitAS400() {
+        this.loadingAS400 = true;
+        this.showSearchResponseAS400();
+        this.cdr.detectChanges();
+    }
 }

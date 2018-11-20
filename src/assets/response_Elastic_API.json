@@ -1,0 +1,52 @@
+{
+  "_resource": [
+    {
+      "dossier_type_signature": null,
+      "origine_personne": "FRIGO",
+      "pj": null,
+      "type_transmission": null,
+      "time": "2018-11-16T09:35:00.697Z",
+      "statut_transmission": null,
+      "@timestamp": "2018-11-16T09:36:00.654Z",
+      "renonciation": null,
+      "num_dossier": "01",
+      "origine": "HERMES-Elastic                        ",
+      "personne": "737085 ",
+      "id_pj": null,
+      "prenom": "amEmOAlItPrV        ",
+      "type_dossier": "AF",
+      "sous_statut": null,
+      "@version": "1",
+      "type": "dossierlist",
+      "id_agent": "0010278",
+      "nom_usage": "TestNomAF                     ",
+      "statut": "Annulé                        ",
+      "nature_pj": null,
+      "date_creation": "2018-11-15T23:00:00.000Z"
+    },
+    {
+      "dossier_type_signature": null,
+      "origine_personne": "FRIGO",
+      "pj": null,
+      "type_transmission": null,
+      "time": "2018-11-16T09:35:00.697Z",
+      "statut_transmission": null,
+      "@timestamp": "2018-11-16T09:36:00.654Z",
+      "renonciation": null,
+      "num_dossier": "02",
+      "origine": "HERMES-Elastic                       ",
+      "personne": "737085 ",
+      "id_pj": null,
+      "prenom": "amEmOAlItPrV        ",
+      "type_dossier": "AF",
+      "sous_statut": null,
+      "@version": "1",
+      "type": "dossierlist",
+      "id_agent": "0010278",
+      "nom_usage": "TestNomAF                     ",
+      "statut": "Annulé                        ",
+      "nature_pj": null,
+      "date_creation": "2018-11-15T23:00:00.000Z"
+    }
+  ]
+}
