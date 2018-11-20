@@ -4,7 +4,7 @@ import {Title} from '@angular/platform-browser';
 import {environment} from '../../environments/environment';
 import {Config, SearchService} from "./search.service";
 import {FormControl} from "@angular/forms";
-import {map, filter, catchError, mergeMap} from 'rxjs/operators';
+import {Subscription} from "rxjs";
 
 @Component({
     templateUrl: './search.component.html',
@@ -12,13 +12,15 @@ import {map, filter, catchError, mergeMap} from 'rxjs/operators';
     styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
+    timerElasticComp: string;
+    timerAS400Comp: string;
+    public searchControl: FormControl;
     responseElastic: string[];
     responseAS400: string[];
     elastic_params: string;
     as400_params: string;
     loadingElastic: boolean;
     loadingAS400: boolean;
-    public searchControl: FormControl;
     error: any;
     headers: string[];
     config: Config;
@@ -42,7 +44,6 @@ export class SearchComponent implements OnInit {
         document.body.className = "page page-home page-contact";
         this.responseElastic = [];
         this.responseAS400 = [];
-        // this.value = '';
     }
 
     ngOnInit() {
@@ -59,7 +60,8 @@ export class SearchComponent implements OnInit {
 
     showSearchResponseElastic() {
         this.searchService.getElasticResponse(this.elastic_params)
-            .subscribe(resp => {
+            .subscribe(
+                resp => {
                 this.responseElastic = [];
                 resp.body._resource.map(item => {
                     let object = {
@@ -73,7 +75,9 @@ export class SearchComponent implements OnInit {
                     this.responseElastic.push(object);
                 });
                 this.loadingElastic = false;
-            });
+            }),
+            error => console.log('Error:', error),
+            () => console.log('Finished');
     }
 
     showSearchResponseAS400() {
@@ -93,19 +97,20 @@ export class SearchComponent implements OnInit {
                     this.responseAS400.push(object);
                 });
                 this.loadingAS400 = false;
-
             });
     }
 
     public onSubmitElastic() {
         this.loadingElastic = true;
         this.showSearchResponseElastic();
+        this.timerElasticComp = this.searchService.getTimeElastic();
         this.cdr.detectChanges();
     }
 
     public onSubmitAS400() {
         this.loadingAS400 = true;
         this.showSearchResponseAS400();
+        this.timerAS400Comp = this.searchService.getTimeAS400();
         this.cdr.detectChanges();
     }
 }

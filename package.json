@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
     "@ngui/auto-complete": "^2.0.0",
+    "bootstrap": "^4.0.0-alpha.6",
     "core-js": "^2.5.4",
     "ng-multiselect-dropdown": "^0.2.1",
     "rxjs": "~6.2.0",
