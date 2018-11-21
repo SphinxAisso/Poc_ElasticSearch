@@ -39,13 +39,12 @@ export class SearchComponent implements OnInit {
         this.loadingAS400 = false;
         this.env.isLoggedIn = true;
         this.env.goBack = false;
-        document.body.className = "page page-home page-contact";
         this.responseElastic = [];
         this.responseAS400 = [];
     }
 
     ngOnInit() {
-        this.titleService.setTitle("POK ElasticSearch");
+        this.titleService.setTitle("POC ElasticSearch");
         //create search FormControl
         this.searchControl = new FormControl();
     }
@@ -59,20 +58,25 @@ export class SearchComponent implements OnInit {
         this.searchService.getElasticResponse(this.elastic_params)
             .subscribe(
                 resp => {
-                this.responseElastic = [];
-                resp.body._resource.map(item => {
-                    let object = {
-                        id_agent: item.id_agent,
-                        num_dossier: item.num_dossier,
-                        origine: item.origine,
-                        personne: item.personne,
-                        statut: item.statut,
-                        type: item.type
-                    };
-                    this.responseElastic.push(object);
-                });
-                this.loadingElastic = false;
-            }),
+                    this.responseElastic = [];
+                    if (resp.body._ressource) {
+                        resp.body._resource.map(item => {
+                            let object = {
+                                id_agent: item.id_agent,
+                                num_dossier: item.num_dossier,
+                                origine: item.origine,
+                                personne: item.personne,
+                                statut: item.statut,
+                                type: item.type
+                            };
+                            this.responseElastic.push(object);
+                        });
+                        this.loadingElastic = false;
+                    } else {
+                        console.log('Response is empty!!');
+                        this.loadingElastic = false;
+                    }
+                }),
             error => console.log('Error:', error),
             () => console.log('Finished');
     }
@@ -82,18 +86,23 @@ export class SearchComponent implements OnInit {
         // resp is of type `HttpResponse<any>`
             .subscribe(resp => {
                 this.responseAS400 = [];
-                resp.body._resource.map(item => {
-                    let object = {
-                        id_agent: item.id_agent,
-                        num_dossier: item.num_dossier,
-                        origine: item.origine,
-                        personne: item.personne,
-                        statut: item.statut,
-                        type: item.type
-                    };
-                    this.responseAS400.push(object);
-                });
-                this.loadingAS400 = false;
+                if (resp.body._ressource) {
+                    resp.body._resource.map(item => {
+                        let object = {
+                            id_agent: item.id_agent,
+                            num_dossier: item.num_dossier,
+                            origine: item.origine,
+                            personne: item.personne,
+                            statut: item.statut,
+                            type: item.type
+                        };
+                        this.responseAS400.push(object);
+                    });
+                    this.loadingAS400 = false;
+                } else {
+                    console.log('Response is empty!!');
+                    this.loadingAS400 = false;
+                }
             });
     }
 

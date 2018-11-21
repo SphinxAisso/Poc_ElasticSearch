@@ -1,5 +1,5 @@
 {
-  "name": "zsoft-POK-ElasticSearch",
+  "name": "zsoft-POC-ElasticSearch",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
