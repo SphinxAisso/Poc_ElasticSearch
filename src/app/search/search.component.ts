@@ -2,9 +2,8 @@ import {Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef} from '@angu
 import {ActivatedRoute, Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {environment} from '../../environments/environment';
-import {Config, SearchService} from "./search.service";
+import {SearchService} from "./search.service";
 import {FormControl} from "@angular/forms";
-import {Subscription} from "rxjs";
 
 @Component({
     templateUrl: './search.component.html',
@@ -15,15 +14,14 @@ export class SearchComponent implements OnInit {
     timerElasticComp: string;
     timerAS400Comp: string;
     public searchControl: FormControl;
-    responseElastic: string[];
-    responseAS400: string[];
+    responseElastic: object[];
+    responseAS400: object[];
     elastic_params: string;
     as400_params: string;
     loadingElastic: boolean;
     loadingAS400: boolean;
     error: any;
     headers: string[];
-    config: Config;
     @ViewChild("search")
     public searchElementRef: ElementRef;
     public address: string;
@@ -53,7 +51,6 @@ export class SearchComponent implements OnInit {
     }
 
     clear() {
-        this.config = undefined;
         this.error = undefined;
         this.headers = undefined;
     }
@@ -82,7 +79,7 @@ export class SearchComponent implements OnInit {
 
     showSearchResponseAS400() {
         this.searchService.getAS400Response(this.as400_params)
-        // resp is of type `HttpResponse<Config>`
+        // resp is of type `HttpResponse<any>`
             .subscribe(resp => {
                 this.responseAS400 = [];
                 resp.body._resource.map(item => {

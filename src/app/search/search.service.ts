@@ -4,45 +4,34 @@ import {HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {tap} from "rxjs/operators";
 
-export interface Config {
-    num_dossier: string;
-    origine: string;
-    id_agent: string;
-    statut: string;
-    type: string;
-    personne: string;
-}
-
 @Injectable()
 export class SearchService {
     private timerElastic: string;
     private timerAS400: string;
     value: string;
-    configUrlAS400 = 'assets/response_AS400_API.json'; // 172.31.11.174/apiperf/dossiers/as400
-    configUrlElastic = 'assets/response_Elastic_API.json'; // 172.31.11.174/apiperf/elastic/dossiers
     tab: string[];
 
     constructor(private http: HttpClient) {
     }
 
     encodeQueryData(data) {
-        let params = '';
         if (data) {
-            params = data.split(';');
+            let params = data.split(';');
+            console.log(params);
             const ret = [];
-            -+
-                params.map((d, index) => ret.push(params[index]));
+            params.map((d, index) => ret.push(params[index]));
             return ret.join('&');
         }
         return '';
     }
 
-    getElasticResponse(query): Observable<HttpResponse<Config>> {
+    getElasticResponse(query): Observable<HttpResponse<any>> {
+        const configUrlElastic = '/apiperf/welcome';
         const begin = Date.now();
         let req = this.encodeQueryData(query);
         console.log(req);
-        return this.http.get<Config>(
-            `${this.configUrlElastic}?${req}`, {observe: 'response'})
+        return this.http.get<any>(
+            `${configUrlElastic}?${req}`, {observe: 'response'})
             .pipe(
                 tap( // Log the result or error
                     data => console.log(data),
@@ -57,11 +46,12 @@ export class SearchService {
             );
     }
 
-    getAS400Response(query): Observable<HttpResponse<Config>> {
+    getAS400Response(query): Observable<HttpResponse<any>> {
+        const configUrlAS400 = '/apiperf/dossiers/as400';
         const begin = Date.now();
         let req = this.encodeQueryData(query);
-        return this.http.get<Config>(
-            `${this.configUrlAS400}?${req}`, {observe: 'response'})
+        return this.http.get<any>(
+            `${configUrlAS400}?${req}`, {observe: 'response'})
             .pipe(
                 tap( // Log the result or error
                     data => console.log(data),

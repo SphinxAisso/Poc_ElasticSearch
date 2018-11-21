@@ -1,5 +1,5 @@
 {
-  "name": "zsoft-mobile-coverage",
+  "name": "zsoft-POK-ElasticSearch",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -39,6 +39,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "~4.3.0",
+    "https-proxy-agent": "^2.2.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~3.0.0",

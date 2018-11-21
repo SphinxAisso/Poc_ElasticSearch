@@ -14,8 +14,10 @@ import {SearchComponent} from './search/search.component';
 
 import {AuthenticationService} from './services';
 import {TabComponent} from "./tableau/tab.component";
-import { MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
-    MatSortModule, MatTableModule } from "@angular/material";
+import {
+    MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
+    MatSortModule, MatTableModule
+} from "@angular/material";
 
 const appRoutes: Routes = [
     {path: 'login', component: LoginComponent},
