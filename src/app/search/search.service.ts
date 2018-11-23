@@ -6,8 +6,8 @@ import {tap} from 'rxjs/operators';
 
 @Injectable()
 export class SearchService {
-    private timerElastic: string;
-    private timerAS400: string;
+    timerElastic: number;
+    timerAS400: number;
     value: string;
     tab: string[];
 
@@ -69,12 +69,12 @@ export class SearchService {
     }
 
     msToTime(duration) {
-        let milliseconds = parseInt((duration % 1000));
-        let seconds = parseInt((duration / 1000) % 60);
-        let minutes = parseInt((duration / (1000 * 60)) % 60);
+        const milliseconds = (duration % 1000);
+        let seconds = (duration / 1000) % 60 + '';
+        let minutes = (duration / (1000 * 60)) % 60 + '';
 
-        minutes = (minutes < 10) ? '0' + minutes : minutes;
-        seconds = (seconds < 10) ? '0' + seconds : seconds;
+        minutes = (parseInt(minutes) < 10) ? '0' + minutes : minutes;
+        seconds = (parseInt(seconds) < 10) ? '0' + seconds : seconds;
 
         return minutes + ' min ' + seconds + ' sec ' + milliseconds + ' ms';
     }
