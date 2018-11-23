@@ -54,10 +54,11 @@ export class SearchComponent implements OnInit {
         this.error = undefined;
         this.headers = undefined;
     }
+
     msToTime(duration) {
-        const milliseconds = (duration % 1000);
-        let seconds = (duration / 1000) % 60 + '';
-        let minutes = (duration / (1000 * 60)) % 60 + '';
+        const milliseconds = (parseInt(duration) % 1000);
+        let seconds = Math.trunc(parseInt(duration) / 1000) % 60 + '';
+        let minutes = Math.trunc(parseInt(duration) / (1000 * 60)) % 60 + '';
 
         minutes = (parseInt(minutes) < 10) ? '0' + minutes : minutes;
         seconds = (parseInt(seconds) < 10) ? '0' + seconds : seconds;
@@ -70,22 +71,25 @@ export class SearchComponent implements OnInit {
         this.searchService.getElasticResponse(this.elastic_params)
             .subscribe(
                 resp => {
-                this.responseElastic = [];
-                resp.body._resource.map(item => {
-                    let object = {
-                        id_agent: item.id_agent,
-                        num_dossier: item.num_dossier,
-                        origine: item.origine,
-                        personne: item.personne,
-                        statut: item.statut,
-                        type: item.type
-                    };
-                    this.responseElastic.push(object);
-                });
-                this.timerElasticComp = this.msToTime(Date.now() - start);
-                this.loadingElastic = false;
-            }),
-            error => console.log('Error:', error),
+                    this.responseElastic = [];
+                    resp.body._resource.map(item => {
+                        let object = {
+                            id_agent: item.id_agent,
+                            num_dossier: item.id_dossier,
+                            origine: item.origine,
+                            personne: item.id_personne,
+                            statut: item.statut.libelle,
+                            type: item.type_dossier
+                        };
+                        this.responseElastic.push(object);
+                    });
+                    console.log('start : ', start);
+                    console.log('start : ', Date.now());
+                    this.timerElasticComp = this.msToTime(Date.now() - start) + '';
+                    console.log(Date.now() - start);
+                    this.loadingElastic = false;
+                }),
+            error => this.error = error,
             () => console.log('Finished');
     }
 
@@ -98,26 +102,30 @@ export class SearchComponent implements OnInit {
                 resp.body._resource.map(item => {
                     let object = {
                         id_agent: item.id_agent,
-                        num_dossier: item.num_dossier,
+                        num_dossier: item.id_dossier,
                         origine: item.origine,
-                        personne: item.personne,
-                        statut: item.statut,
-                        type: item.type
+                        personne: item.id_personne,
+                        statut: item.statut.libelle,
+                        type: item.type_dossier
                     };
                     this.responseAS400.push(object);
                 });
-                this.timerAS400Comp = this.msToTime(Date.now() - start);
+                this.timerAS400Comp = this.msToTime(Date.now() - start) + '';
                 this.loadingAS400 = false;
-            });
+            }),
+            error => this.error = error,
+            () => console.log('Finished');
     }
 
     public onSubmitElastic() {
+        this.responseElastic = null;
         this.loadingElastic = true;
         this.showSearchResponseElastic();
         this.cdr.detectChanges();
     }
 
     public onSubmitAS400() {
+        this.responseAS400 = null;
         this.loadingAS400 = true;
         this.showSearchResponseAS400();
         this.cdr.detectChanges();
