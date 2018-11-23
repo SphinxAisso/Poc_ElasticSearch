@@ -6,8 +6,8 @@ import {tap} from 'rxjs/operators';
 
 @Injectable()
 export class SearchService {
-    private timerElastic: number;
-    private timerAS400: number;
+    private timerElastic: string;
+    private timerAS400: string;
     value: string;
     tab: string[];
 
