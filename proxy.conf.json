@@ -2,5 +2,10 @@
   "/apiperf": {
     "target": "http://172.31.11.174:3000",
     "secure": false
+  },
+
+  "/apiespaceclientdev": {
+    "target": "se99103",
+    "secure": false
   }
 }

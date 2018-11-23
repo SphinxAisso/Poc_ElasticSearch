@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.titleService.setTitle( "Login - POC ElasticSearch" );
+        this.titleService.setTitle( "Login - POK ElasticSearch" );
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]

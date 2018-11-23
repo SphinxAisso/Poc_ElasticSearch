@@ -2,8 +2,8 @@ import {Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef} from '@angu
 import {ActivatedRoute, Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {environment} from '../../environments/environment';
-import {SearchService} from "./search.service";
-import {FormControl} from "@angular/forms";
+import {SearchService} from './search.service';
+import {FormControl} from '@angular/forms';
 
 @Component({
     templateUrl: './search.component.html',
@@ -22,7 +22,7 @@ export class SearchComponent implements OnInit {
     loadingAS400: boolean;
     error: any;
     headers: string[];
-    @ViewChild("search")
+    @ViewChild('search')
     public searchElementRef: ElementRef;
     public address: string;
     env = environment;
@@ -39,12 +39,13 @@ export class SearchComponent implements OnInit {
         this.loadingAS400 = false;
         this.env.isLoggedIn = true;
         this.env.goBack = false;
+        document.body.className = 'page page-home page-contact';
         this.responseElastic = [];
         this.responseAS400 = [];
     }
 
     ngOnInit() {
-        this.titleService.setTitle("POC ElasticSearch");
+        this.titleService.setTitle('POC ElasticSearch');
         //create search FormControl
         this.searchControl = new FormControl();
     }
@@ -53,70 +54,72 @@ export class SearchComponent implements OnInit {
         this.error = undefined;
         this.headers = undefined;
     }
+    msToTime(duration) {
+        const milliseconds = (duration % 1000);
+        let seconds = (duration / 1000) % 60 + '';
+        let minutes = (duration / (1000 * 60)) % 60 + '';
+
+        minutes = (parseInt(minutes) < 10) ? '0' + minutes : minutes;
+        seconds = (parseInt(seconds) < 10) ? '0' + seconds : seconds;
+
+        return minutes + ' min ' + seconds + ' sec ' + milliseconds + ' ms';
+    }
 
     showSearchResponseElastic() {
+        const start = Date.now();
         this.searchService.getElasticResponse(this.elastic_params)
             .subscribe(
                 resp => {
-                    this.responseElastic = [];
-                    if (resp.body._ressource) {
-                        resp.body._resource.map(item => {
-                            let object = {
-                                id_agent: item.id_agent,
-                                num_dossier: item.num_dossier,
-                                origine: item.origine,
-                                personne: item.personne,
-                                statut: item.statut,
-                                type: item.type
-                            };
-                            this.responseElastic.push(object);
-                        });
-                        this.loadingElastic = false;
-                    } else {
-                        console.log('Response is empty!!');
-                        this.loadingElastic = false;
-                    }
-                }),
+                this.responseElastic = [];
+                resp.body._resource.map(item => {
+                    let object = {
+                        id_agent: item.id_agent,
+                        num_dossier: item.num_dossier,
+                        origine: item.origine,
+                        personne: item.personne,
+                        statut: item.statut,
+                        type: item.type
+                    };
+                    this.responseElastic.push(object);
+                });
+                this.timerElasticComp = this.msToTime(Date.now() - start);
+                this.loadingElastic = false;
+            }),
             error => console.log('Error:', error),
             () => console.log('Finished');
     }
 
     showSearchResponseAS400() {
+        const start = Date.now();
         this.searchService.getAS400Response(this.as400_params)
         // resp is of type `HttpResponse<any>`
             .subscribe(resp => {
                 this.responseAS400 = [];
-                if (resp.body._ressource) {
-                    resp.body._resource.map(item => {
-                        let object = {
-                            id_agent: item.id_agent,
-                            num_dossier: item.num_dossier,
-                            origine: item.origine,
-                            personne: item.personne,
-                            statut: item.statut,
-                            type: item.type
-                        };
-                        this.responseAS400.push(object);
-                    });
-                    this.loadingAS400 = false;
-                } else {
-                    console.log('Response is empty!!');
-                    this.loadingAS400 = false;
-                }
+                resp.body._resource.map(item => {
+                    let object = {
+                        id_agent: item.id_agent,
+                        num_dossier: item.num_dossier,
+                        origine: item.origine,
+                        personne: item.personne,
+                        statut: item.statut,
+                        type: item.type
+                    };
+                    this.responseAS400.push(object);
+                });
+                this.timerAS400Comp = this.msToTime(Date.now() - start);
+                this.loadingAS400 = false;
             });
     }
 
     public onSubmitElastic() {
         this.loadingElastic = true;
         this.showSearchResponseElastic();
-        this.timerElasticComp = this.searchService.getTimeElastic();
         this.cdr.detectChanges();
     }
 
     public onSubmitAS400() {
         this.loadingAS400 = true;
         this.showSearchResponseAS400();
-        this.timerAS400Comp = this.searchService.getTimeAS400();
         this.cdr.detectChanges();
     }
 }
