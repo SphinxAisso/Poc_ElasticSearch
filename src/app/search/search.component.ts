@@ -2,8 +2,8 @@ import {Component, ElementRef, OnInit, ViewChild, ChangeDetectorRef} from '@angu
 import {ActivatedRoute, Router} from '@angular/router';
 import {Title} from '@angular/platform-browser';
 import {environment} from '../../environments/environment';
-import {SearchService} from "./search.service";
-import {FormControl} from "@angular/forms";
+import {SearchService} from './search.service';
+import {FormControl} from '@angular/forms';
 
 @Component({
     templateUrl: './search.component.html',
@@ -22,7 +22,7 @@ export class SearchComponent implements OnInit {
     loadingAS400: boolean;
     error: any;
     headers: string[];
-    @ViewChild("search")
+    @ViewChild('search')
     public searchElementRef: ElementRef;
     public address: string;
     env = environment;
@@ -39,13 +39,13 @@ export class SearchComponent implements OnInit {
         this.loadingAS400 = false;
         this.env.isLoggedIn = true;
         this.env.goBack = false;
-        document.body.className = "page page-home page-contact";
+        document.body.className = 'page page-home page-contact';
         this.responseElastic = [];
         this.responseAS400 = [];
     }
 
     ngOnInit() {
-        this.titleService.setTitle("POK ElasticSearch");
+        this.titleService.setTitle('POC ElasticSearch');
         //create search FormControl
         this.searchControl = new FormControl();
     }

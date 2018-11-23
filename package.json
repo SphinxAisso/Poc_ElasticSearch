@@ -1,6 +1,6 @@
 {
-  "name": "zsoft-POK-ElasticSearch",
-  "version": "0.0.0",
+  "name": "zsoft-POC-ElasticSearch",
+  "version": "1.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -27,6 +27,7 @@
     "bootstrap": "^4.0.0-alpha.6",
     "core-js": "^2.5.4",
     "ng-multiselect-dropdown": "^0.2.1",
+    "ngx-json-viewer": "^2.4.0",
     "rxjs": "~6.2.0",
     "zone.js": "~0.8.26"
   },

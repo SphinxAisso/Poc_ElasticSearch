@@ -44,26 +44,27 @@
         <br>
         <br>
         <div *ngIf="responseElastic.length">
-            <table>
-                <thead class="thead-dark">
-                <tr class="bg-grey">
-                    <th>Dossier</th>
-                    <th>Origine</th>
-                    <th>Id_agent</th>
-                    <th>Statut</th>
-                    <th>Type</th>
-                    <th>Personne</th>
-                </tr>
-                </thead>
-                <tr class="alpha-indigo" *ngFor="let item of responseElastic">
-                    <td>{{item.num_dossier}}</td>
-                    <td>{{item.origine}}</td>
-                    <td>{{item.id_agent}}</td>
-                    <td>{{item.statut}}</td>
-                    <td>{{item.type}}</td>
-                    <td>{{item.personne}}</td>
-                </tr>
-            </table>
+            <!--<table>-->
+                <!--<thead class="thead-dark">-->
+                <!--<tr class="bg-grey">-->
+                    <!--<th>Dossier</th>-->
+                    <!--<th>Origine</th>-->
+                    <!--<th>Id_agent</th>-->
+                    <!--<th>Statut</th>-->
+                    <!--<th>Type</th>-->
+                    <!--<th>Personne</th>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tr class="alpha-indigo" *ngFor="let item of responseElastic">-->
+                    <!--<td>{{item.num_dossier}}</td>-->
+                    <!--<td>{{item.origine}}</td>-->
+                    <!--<td>{{item.id_agent}}</td>-->
+                    <!--<td>{{item.statut}}</td>-->
+                    <!--<td>{{item.type}}</td>-->
+                    <!--<td>{{item.personne}}</td>-->
+                <!--</tr>-->
+            <!--</table>-->
+            <ngx-json-viewer [json]="responseElastic" [expanded]="false"></ngx-json-viewer>
             <!--<span>{{config | json}}</span>-->
         </div>
         <!-------------------------------------------------------->
@@ -117,26 +118,28 @@
         <br>
         <br>
         <div *ngIf="responseAS400.length">
-            <table>
-                <thead class="thead-dark">
-                <tr class="bg-grey">
-                    <th>Dossier</th>
-                    <th>Origine</th>
-                    <th>Id_agent</th>
-                    <th>Statut</th>
-                    <th>Type</th>
-                    <th>Personne</th>
-                </tr>
-                </thead>
-                <tr class="alpha-indigo" *ngFor="let item of responseAS400">
-                    <td>{{item.num_dossier}}</td>
-                    <td>{{item.origine}}</td>
-                    <td>{{item.id_agent}}</td>
-                    <td>{{item.statut}}</td>
-                    <td>{{item.type}}</td>
-                    <td>{{item.personne}}</td>
-                </tr>
-            </table>
+            <!--<table>-->
+                <!--<thead class="thead-dark">-->
+                <!--<tr class="bg-grey">-->
+                    <!--<th>ID Dossier</th>-->
+                    <!--<th>Origine</th>-->
+                    <!--<th>ID agent</th>-->
+                    <!--<th>Statut</th>-->
+                    <!--<th>Type dossier</th>-->
+                    <!--<th>ID Personne</th>-->
+                <!--</tr>-->
+                <!--</thead>-->
+                <!--<tr class="alpha-indigo" *ngFor="let item of responseAS400">-->
+                    <!--<td>{{item.num_dossier}}</td>-->
+                    <!--<td>{{item.origine}}</td>-->
+                    <!--<td>{{item.id_agent}}</td>-->
+                    <!--<td>{{item.statut}}</td>-->
+                    <!--<td>{{item.type}}</td>-->
+                    <!--<td>{{item.personne}}</td>-->
+                <!--</tr>-->
+            <!--</table>-->
+            <!--<tr class="alpha-indigo" *ngFor="let item of responseAS400">-->
+            <ngx-json-viewer [json]="responseAS400" [expanded]="false"></ngx-json-viewer>
             <!--<span>{{config | json}}</span>-->
         </div>
         <!-------------------------------------------------------->
