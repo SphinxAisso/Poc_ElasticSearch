@@ -5,7 +5,7 @@
   },
 
   "/apiespaceclientdev": {
-    "target": "se99103",
+    "target": "http://se99103",
     "secure": false
   }
 }
