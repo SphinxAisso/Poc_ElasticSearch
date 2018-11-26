@@ -25,15 +25,14 @@ export class SearchService {
             const id = res[0];
 
             // let id_agent = this.generate_id(id.replace(/'/g, ''))
-            const request = this.generate_id(id)
+            return this.generate_id(id)
                 .subscribe(resp => {
-                    if (resp.id) return resp.id;
+                    if (resp.id) {
+                        const regex2 = /[^id_agent=].*&/gi;
+                        console.log(query.replace(regex2, `${resp.id}&`));
+                        return query.replace(regex2, `${resp.id}&`);
+                     }
                 });
-            if (request) {
-                const regex2 = /[^id_agent=].*&/gi;
-                console.log(query.replace(regex2, `${request}&`));
-                return query.replace(regex2, `${request}&`);
-            }
         }
         return '';
     }
