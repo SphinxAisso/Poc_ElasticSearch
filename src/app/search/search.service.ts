@@ -73,13 +73,6 @@ export class SearchService {
     generate_id(query): Observable<any> {
         const gerateID_path = '/apiespaceclientdev/generateid';
         return this.http.post<any>(
-            `${gerateID_path}`, {id: query})
-            .pipe(
-                tap(
-                    data => console.log('generate_id - ' + data),
-                    error => console.log('generate_id - Error! ', error),
-                    () => console.log('generate_id - finished !')
-                )
-            );
+            `${gerateID_path}`, {id: query});
     }
 }
