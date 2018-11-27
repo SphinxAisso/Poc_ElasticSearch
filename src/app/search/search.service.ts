@@ -20,12 +20,15 @@ export class SearchService {
             const query = ret.join('&');
             const regex1 = /[^id_agent=].*&/gi;
             const id_a = query.match(regex1);
-            const res = id_a[0].split('&');
-            const id = res[0];
-            return {id: id, query: query};
-        } else {
-            return {id: '', query: ''};
+            if (id_a) {
+                const res = id_a[0].split('&');
+                const id = res[0];
+                return {id: id, query: query};
+            } else {
+                return {id: '', query: ''};
+            }
         }
+        return {id: '', query: ''};
     }
 
     getElasticResponse(query): Observable<HttpResponse<any>> {
