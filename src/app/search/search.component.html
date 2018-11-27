@@ -8,7 +8,7 @@
                         <!-- Name Search field -->
                         <div class="content-group">
                             <input name="idElastic" class="form-control" type="text" [(ngModel)]="elastic_params"
-                                   placeholder="chercher par id ..."/>
+                                   placeholder="chercher par id ..." required>
                         </div>
                         <!-- /name search field -->
                         <br>
@@ -44,28 +44,10 @@
         <br>
         <br>
         <div *ngIf="responseElastic">
-            <!--<table>-->
-                <!--<thead class="thead-dark">-->
-                <!--<tr class="bg-grey">-->
-                    <!--<th>Dossier</th>-->
-                    <!--<th>Origine</th>-->
-                    <!--<th>Id_agent</th>-->
-                    <!--<th>Statut</th>-->
-                    <!--<th>Type</th>-->
-                    <!--<th>Personne</th>-->
-                <!--</tr>-->
-                <!--</thead>-->
-                <!--<tr class="alpha-indigo" *ngFor="let item of responseElastic">-->
-                    <!--<td>{{item.num_dossier}}</td>-->
-                    <!--<td>{{item.origine}}</td>-->
-                    <!--<td>{{item.id_agent}}</td>-->
-                    <!--<td>{{item.statut}}</td>-->
-                    <!--<td>{{item.type}}</td>-->
-                    <!--<td>{{item.personne}}</td>-->
-                <!--</tr>-->
-            <!--</table>-->
             <ngx-json-viewer [json]="responseElastic" [expanded]="false"></ngx-json-viewer>
-            <!--<span>{{config | json}}</span>-->
+        </div>
+        <div *ngIf="errorElastic">
+            <ngx-json-viewer [json]="errorElastic" [expanded]="false"></ngx-json-viewer>
         </div>
         <!-------------------------------------------------------->
     </div>
@@ -77,7 +59,7 @@
                     <form (ngSubmit)="onSubmitAS400()">
                         <!-- Name Search field -->
                         <div class="content-group">
-                            <input name="fullname" class="form-control" type="text" [(ngModel)]="as400_params"
+                            <input name="idAS400" class="form-control" type="text" [(ngModel)]="as400_params"
                                    placeholder="chercher par id ..."
                                    autofocus/>
                         </div>
@@ -118,33 +100,11 @@
         <br>
         <br>
         <div *ngIf="responseAS400">
-            <!--<table>-->
-                <!--<thead class="thead-dark">-->
-                <!--<tr class="bg-grey">-->
-                    <!--<th>ID Dossier</th>-->
-                    <!--<th>Origine</th>-->
-                    <!--<th>ID agent</th>-->
-                    <!--<th>Statut</th>-->
-                    <!--<th>Type dossier</th>-->
-                    <!--<th>ID Personne</th>-->
-                <!--</tr>-->
-                <!--</thead>-->
-                <!--<tr class="alpha-indigo" *ngFor="let item of responseAS400">-->
-                    <!--<td>{{item.num_dossier}}</td>-->
-                    <!--<td>{{item.origine}}</td>-->
-                    <!--<td>{{item.id_agent}}</td>-->
-                    <!--<td>{{item.statut}}</td>-->
-                    <!--<td>{{item.type}}</td>-->
-                    <!--<td>{{item.personne}}</td>-->
-                <!--</tr>-->
-            <!--</table>-->
-            <!--<tr class="alpha-indigo" *ngFor="let item of responseAS400">-->
             <ngx-json-viewer [json]="responseAS400" [expanded]="false"></ngx-json-viewer>
-            <!--<span>{{config | json}}</span>-->
+        </div>
+        <div *ngIf="errorAS400">
+            <ngx-json-viewer [json]="errorAS400" [expanded]="false"></ngx-json-viewer>
         </div>
         <!-------------------------------------------------------->
     </div>
 </div>
-
-<!------------------------------- -->
-

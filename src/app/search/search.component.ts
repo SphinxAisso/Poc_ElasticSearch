@@ -21,7 +21,8 @@ export class SearchComponent implements OnInit {
     as400_params: string;
     loadingElastic: boolean;
     loadingAS400: boolean;
-    error: any;
+    errorAS400: any;
+    errorElastic: any;
     headers: string[];
     @ViewChild('search')
     public searchElementRef: ElementRef;
@@ -41,8 +42,8 @@ export class SearchComponent implements OnInit {
         this.env.isLoggedIn = true;
         this.env.goBack = false;
         document.body.className = 'page page-home page-contact';
-        this.responseElastic = [];
-        this.responseAS400 = [];
+        this.responseElastic = null;
+        this.responseAS400 = null;
     }
 
     ngOnInit() {
@@ -52,7 +53,6 @@ export class SearchComponent implements OnInit {
     }
 
     clear() {
-        this.error = undefined;
         this.headers = undefined;
     }
 
@@ -77,6 +77,7 @@ export class SearchComponent implements OnInit {
                 .subscribe(
                     res => {
                         this.responseElastic = [];
+                        this.timerElasticComp = this.msToTime(Date.now() - start) + '';
                         res.body._resource.map(item => {
                             const object = {
                                 num_dossier: item.id_dossier,
@@ -87,38 +88,56 @@ export class SearchComponent implements OnInit {
                             };
                             this.responseElastic.push(object);
                         });
-                        this.timerElasticComp = this.msToTime(Date.now() - start) + '';
+                    },
+                    error => {
+                        console.log('ERROR! ' + error);
+                        this.errorElastic = error;
                         this.loadingElastic = false;
+                    },
+                    () => {
+                        this.loadingElastic = false;
+                        console.log('showSearchResponseElastic - Finished!');
                     });
         });
 
     }
 
     showSearchResponseAS400() {
-        const start = Date.now();
-        this.searchService.getAS400Response(this.as400_params)
-        // resp is of type `HttpResponse<any>`
-            .subscribe(resp => {
-                this.responseAS400 = [];
-                resp.body._resource.map(item => {
-                    const object = {
-                        id_agent: item.id_agent,
-                        num_dossier: item.id_dossier,
-                        origine: item.origine,
-                        personne: item.id_personne,
-                        statut: item.statut.libelle,
-                        type: item.type_dossier
-                    };
-                    this.responseAS400.push(object);
-                });
-                this.timerAS400Comp = this.msToTime(Date.now() - start) + '';
-                this.loadingAS400 = false;
-            }),
-            error => this.error = error,
-            () => console.log('Finished');
+        const req = this.searchService.encodeQueryData(this.as400_params);
+        this.searchService.generate_id(req).subscribe(resp => {
+            const regex2 = /[^id_agent=].*&/gi;
+            const valide = req.query.replace(regex2, `${resp.id}&`);
+            const start = Date.now();
+            this.searchService.getAS400Response(valide)
+                .subscribe(
+                    res => {
+                        this.responseAS400 = [];
+                        this.timerAS400Comp = this.msToTime(Date.now() - start) + '';
+                        res.body._resource.map(item => {
+                            const object = {
+                                num_dossier: item.id_dossier,
+                                origine: item.origine,
+                                personne: item.id_personne,
+                                statut: item.statut.libelle,
+                                type: item.type_dossier
+                            };
+                            this.responseAS400.push(object);
+                        });
+                    },
+                    error => {
+                        console.log('ERROR! ' + error);
+                        this.errorAS400 = error;
+                        this.loadingAS400 = false;
+                    },
+                    () => {
+                        this.loadingAS400 = false;
+                        console.log('showSearchResponseAS400 - Finished!');
+                    });
+        });
     }
 
     public onSubmitElastic() {
+        this.errorElastic = undefined;
         this.responseElastic = null;
         this.loadingElastic = true;
         this.showSearchResponseElastic();
@@ -126,6 +145,7 @@ export class SearchComponent implements OnInit {
     }
 
     public onSubmitAS400() {
+        this.errorAS400 = undefined;
         this.responseAS400 = null;
         this.loadingAS400 = true;
         this.showSearchResponseAS400();

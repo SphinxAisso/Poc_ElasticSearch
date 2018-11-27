@@ -7,10 +7,8 @@ import {Observable} from 'rxjs';
 export class SearchService {
     value: string;
     tab: string[];
-    private observe: boolean;
 
     constructor(private http: HttpClient) {
-        this.observe = false;
     }
 
     encodeQueryData(data) {
@@ -32,25 +30,17 @@ export class SearchService {
 
     getElasticResponse(query): Observable<HttpResponse<any>> {
         const configUrlElastic = '/apiperf/elastic/dossiers/statuts';
-        // const req = this.encodeQueryData(query, cb => cb);
-        this.observe = true;
         return this.http.get<any>(`${configUrlElastic}?${query}`, {observe: 'response'});
     }
 
     getAS400Response(query): Observable<HttpResponse<any>> {
         const configUrlAS400 = '/apiperf/dossiers/statuts';
-        const req = this.encodeQueryData(query);
-        if (req)
-            return this.http.get<any>(`${configUrlAS400}?${req}`, {observe: 'response'});
+        return this.http.get<any>(`${configUrlAS400}?${query}`, {observe: 'response'});
     }
 
     generate_id(query): Observable<any> {
         const gerateID_path = '/apiespaceclientdev/generateid';
         return this.http
             .post<any>(`${gerateID_path}`, {id: query.id});
-    }
-
-    get_observe() {
-        return this.observe;
     }
 }
