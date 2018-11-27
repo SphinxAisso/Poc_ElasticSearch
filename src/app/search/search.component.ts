@@ -4,6 +4,7 @@ import {Title} from '@angular/platform-browser';
 import {environment} from '../../environments/environment';
 import {SearchService} from './search.service';
 import {FormControl} from '@angular/forms';
+import {valid} from 'semver';
 
 @Component({
     templateUrl: './search.component.html',
@@ -67,30 +68,30 @@ export class SearchComponent implements OnInit {
     }
 
     showSearchResponseElastic() {
-        const start = Date.now();
-        this.searchService.getElasticResponse(this.elastic_params)
-            .subscribe(
-                resp => {
-                    this.responseElastic = [];
-                    resp.body._resource.map(item => {
-                        let object = {
-                            id_agent: item.id_agent,
-                            num_dossier: item.id_dossier,
-                            origine: item.origine,
-                            personne: item.id_personne,
-                            statut: item.statut.libelle,
-                            type: item.type_dossier
-                        };
-                        this.responseElastic.push(object);
+        const req = this.searchService.encodeQueryData(this.elastic_params);
+        this.searchService.generate_id(req).subscribe(resp => {
+            const regex2 = /[^id_agent=].*&/gi;
+            const valide = req.query.replace(regex2, `${resp.id}&`);
+            const start = Date.now();
+            this.searchService.getElasticResponse(valide)
+                .subscribe(
+                    res => {
+                        this.responseElastic = [];
+                        res.body._resource.map(item => {
+                            const object = {
+                                num_dossier: item.id_dossier,
+                                origine: item.origine,
+                                personne: item.id_personne,
+                                statut: item.statut.libelle,
+                                type: item.type_dossier
+                            };
+                            this.responseElastic.push(object);
+                        });
+                        this.timerElasticComp = this.msToTime(Date.now() - start) + '';
+                        this.loadingElastic = false;
                     });
-                    console.log('start : ', start);
-                    console.log('start : ', Date.now());
-                    this.timerElasticComp = this.msToTime(Date.now() - start) + '';
-                    console.log(Date.now() - start);
-                    this.loadingElastic = false;
-                }),
-            error => this.error = error,
-            () => console.log('Finished');
+        });
+
     }
 
     showSearchResponseAS400() {
@@ -100,7 +101,7 @@ export class SearchComponent implements OnInit {
             .subscribe(resp => {
                 this.responseAS400 = [];
                 resp.body._resource.map(item => {
-                    let object = {
+                    const object = {
                         id_agent: item.id_agent,
                         num_dossier: item.id_dossier,
                         origine: item.origine,
